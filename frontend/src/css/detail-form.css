@@ -1,0 +1,150 @@
+/* .detail-form-card {
+   min-width: 600px;
+}
+
+.file-input-wrapper {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-wrap: wrap;
+}
+
+.file-input-wrapper input[type="text"] {
+   width: 65%;
+   flex-grow: 1;
+}
+
+.file-input-wrapper input[type="file"] {
+   width: calc(35% - 8px);
+}
+
+.file-input-wrapper input[type="file"] {
+   font-size: .88rem;
+   color: var(--clr-text-1);
+   cursor: pointer;
+}
+
+.file-input-wrapper input[type="file"]::file-selector-button {
+   background: var(--clr-accent);
+   color: var(--clr-text);
+   border: none;
+   font-family: var(--font-body);
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: 500;
+   transition: background 0.25s ease;
+}
+
+.file-input-wrapper input[type="file"]::file-selector-button:hover {
+   background: #726BF9;
+} */
+
+.text-extract-loading {
+   font-size: 12.5px;
+   display: flex;
+   gap: 4px;
+   color: var(--clr-yellow);
+   flex-basis: 100%;
+}
+
+main.details-main-viewport {
+   height: auto;
+   min-height: 92.4vh;
+}
+   
+.form-card.detail-form-card {
+   min-width: 0; 
+   width: 100%;
+   max-width: 620px;
+}
+
+.detail-form-card .file-input-wrapper {
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: row;
+   gap: 12px;
+   align-items: flex-start;
+}
+
+.detail-form-card .file-input-wrapper input[type="text"] {
+   width: 55%;
+   flex-grow: 1;
+}
+
+.detail-form-card .file-input-wrapper input[type="file"] {
+   width: calc(45% - 12px);
+   height: 47px;
+   border: 1px dashed var(--clr-border-hover);
+   background-color: rgba(255, 255, 255, 0.02);
+   border-radius: 12px;
+   padding: 10px 12px;
+   font-size: 0.82rem;
+   color: var(--clr-text-1);
+   cursor: pointer;
+   transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.detail-form-card .file-input-wrapper input[type="file"]::file-selector-button {
+   background: var(--clr-accent);
+   color: var(--clr-text);
+   border: none;
+   padding: 5px 10px;
+   font-family: var(--font-body);
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: 600;
+   margin-right: 8px;
+   transition: background 0.25s ease;
+}
+
+.detail-form-card .file-input-wrapper input[type="file"]::file-selector-button:hover {
+   background: #726BF9;
+}
+
+.detail-form-card .file-input-wrapper .error-text {
+   flex-basis: 100%;
+   margin-top: 4px;
+}
+
+.spin-animation {
+   animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+   from { transform: rotate(0deg); }
+   to { transform: rotate(360deg); }
+}
+
+@media screen and (max-width: 650px) {
+   .detail-form-card .file-input-wrapper {
+      flex-direction: column;
+      gap: 16px;
+   }
+
+   .detail-form-card .file-input-wrapper input[type="text"],
+   .detail-form-card .file-input-wrapper input[type="file"] {
+      width: 100% !important;
+   }
+
+   .detail-form-card .file-input-wrapper input[type="file"] {
+      height: auto;
+   }
+}
+
+.identity-select {
+   width: 100%;
+   margin-bottom: 12px;
+}
+
+.text-extract-loading.label-info {
+   color: var(--clr-text-1);
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 5px;
+}
+
+.incorp-upload {
+   width: 100%;
+   margin-bottom: 12px;
+}

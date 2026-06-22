@@ -1,0 +1,292 @@
+/* .video-feed {
+   transform: scaleX(-1);
+   border-radius: 8px;
+}
+
+.shortcut-key {
+   margin-left: 8px;
+   padding: 2px 6px;
+   background-color: #f0f0f0;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   color: #333;
+   font-size: 0.85em;
+   font-family: monospace;
+   box-shadow: 0 2px 0 #bbb;
+} */
+
+main.biometric-main-viewport {
+   position: relative;
+   min-height: 92.4vh; /* Matches your layout height requirement */
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 1;
+}
+
+/* This applies the blurred screenshot ONLY to the biometric pages */
+main.biometric-main-viewport::before {
+   content: '';
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background-image: url('/src/assets/admin-dashboard-screenshot.png'); /* Paths your screenshot */
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   filter: blur(10px) brightness(1); 
+   z-index: -1; 
+   transform: scale(1); 
+   pointer-events: none; 
+}
+
+.face-module-container {
+   width: 100%;
+   max-width: 680px;
+   background: var(--clr-bg-light);
+   border: 1px solid var(--clr-border);
+   border-radius: 20px;
+   padding: 2.5rem 2rem;
+   margin: 2rem auto;
+   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+   text-align: center;
+}
+
+.face-module-container h2 {
+   font-family: var(--font-display);
+   font-size: 1.8rem;
+   font-weight: 700;
+   color: var(--clr-text);
+   margin-bottom: 0.5rem;
+   letter-spacing: -0.02em;
+}
+
+.face-module-container .subtitle {
+   color: var(--clr-text-1);
+   font-size: 0.95rem;
+   margin-bottom: 2rem;
+}
+
+/* --- Shared Biometric Viewport Window --- */
+.scanner-viewport {
+   position: relative;
+   width: 100%;
+   aspect-ratio: 4 / 3;
+   background: #050508;
+   border-radius: 14px;
+   overflow: hidden;
+   border: 1px solid var(--clr-input-border);
+   margin-bottom: 1.5rem;
+}
+
+.video-feed {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   transform: scaleX(-1);
+}
+
+.scanner-hud {
+   position: absolute;
+   inset: 0;
+   border-radius: 14px;
+   pointer-events: none;
+   z-index: 2;
+   box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Biometric HUD Corner Target Brackets (Dynamic via local variables) */
+.scanner-hud::before {
+   content: '';
+   position: absolute;
+   inset: 20px;
+   border: 1px solid rgba(108, 99, 255, 0.15);
+   background:
+      linear-gradient(to right, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 0 0,
+      linear-gradient(to bottom, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 0 0,
+      linear-gradient(to left, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 100% 0,
+      linear-gradient(to bottom, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 100% 0,
+      linear-gradient(to right, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 0 100%,
+      linear-gradient(to top, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 0 100%,
+      linear-gradient(to left, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 100% 100%,
+      linear-gradient(to top, var(--hud-accent, var(--clr-accent)) 2px, transparent 2px) 100% 100%;
+   background-size: 20px 20px;
+   background-repeat: no-repeat;
+}
+
+.scanner-laser {
+   position: absolute;
+   left: 0;
+   right: 0;
+   height: 2px;
+   background: linear-gradient(90deg, transparent, var(--laser-color, var(--clr-accent-2)), var(--hud-accent, var(--clr-accent)), var(--laser-color, var(--clr-accent-2)), transparent);
+   box-shadow: 0 0 12px var(--hud-accent, var(--clr-accent));
+   opacity: 0.4;
+   z-index: 3;
+   animation: scanAnimation 3.5s ease-in-out infinite;
+   pointer-events: none;
+}
+
+.action-controls {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+.face-btn {
+   width: 100%;
+   border: none;
+   padding: 13px 20px;
+   font-family: var(--font-display);
+   font-size: .97rem;
+   font-weight: 700;
+   border-radius: 12px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+   transition: all 0.25s ease;
+}
+
+.face-btn:disabled {
+   background: var(--clr-input-bg) !important;
+   color: var(--clr-text-2) !important;
+   border: 1px solid var(--clr-input-border) !important;
+   box-shadow: none !important;
+   cursor: not-allowed;
+   opacity: 0.5;
+}
+
+.btn-accent {
+   background: var(--clr-accent);
+   color: #F0F0F8;
+}
+
+.btn-accent:hover:not(:disabled) {
+   transform: translateY(-1px);
+   background: rgb(91, 82, 230);
+   box-shadow: 0 0 24px rgba(108, 99, 255, 0.3);
+}
+
+.btn-outline {
+   background: rgba(108, 99, 255, 0.08);
+   border: 1px solid rgba(108, 99, 255, 0.2);
+   color: var(--clr-text);
+}
+
+.btn-outline:hover:not(:disabled) {
+   transform: translateY(-1px);
+   background: rgba(108, 99, 255, 0.16);
+   border-color: var(--clr-accent-2);
+}
+
+.btn-success {
+   background: var(--clr-green);
+   color: #050508;
+}
+
+.btn-success:hover:not(:disabled) {
+   transform: translateY(-1px);
+   background: rgb(27, 195, 150);
+   box-shadow: 0 0 20px rgba(34, 211, 165, 0.3);
+}
+
+.shortcut-key {
+   padding: 3px 6px;
+   background: rgba(0, 0, 0, 0.2);
+   border: 1px solid var(--clr-border-hover);
+   border-radius: 5px;
+   color: var(--clr-accent-2);
+   font-size: 0.78rem;
+   font-family: monospace;
+   font-weight: 700;
+   box-shadow: 0 1.5px 0 rgba(255, 255, 255, 0.1);
+   margin-left: 6px;
+}
+
+@keyframes scanAnimation {
+
+   0%,
+   100% {
+      top: 5%;
+   }
+
+   50% {
+      top: 95%;
+   }
+}
+
+.samples-tracker {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 0.75rem;
+   margin-bottom: 2rem;
+}
+
+.samples-label {
+   font-size: 0.88rem;
+   color: var(--clr-text-1);
+   font-weight: 500;
+}
+
+.progress-nodes {
+   display: flex;
+   gap: 8px;
+}
+
+.node {
+   width: 36px;
+   height: 6px;
+   background: var(--clr-input-bg);
+   border: 1px solid var(--clr-input-border);
+   border-radius: 3px;
+   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.node.active {
+   background: var(--clr-accent);
+   border-color: var(--clr-accent-2);
+   box-shadow: 0 0 10px rgba(108, 99, 255, 0.4);
+}
+
+.node.complete {
+   background: var(--clr-green);
+   border-color: var(--clr-green);
+   box-shadow: 0 0 10px rgba(34, 211, 165, 0.3);
+}
+
+.verify-module-modifier {
+   --hud-accent: var(--clr-accent-2);
+   --laser-color: var(--clr-accent);
+   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 80px rgba(167, 139, 250, 0.02);
+}
+
+.verify-module-modifier .scanner-viewport {
+   margin-bottom: 2rem;
+}
+
+.verify-module-modifier .scanner-laser.scanning-active {
+   background: linear-gradient(90deg, transparent, var(--clr-green), var(--clr-text), var(--clr-green), transparent);
+   box-shadow: 0 0 15px var(--clr-green);
+   animation-duration: 1.2s;
+   opacity: 0.8;
+}
+
+/* --- Global Media Query --- */
+@media screen and (max-width: 520px) {
+   .face-module-container {
+      padding: 1.5rem 1rem;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+   }
+
+   .scanner-hud::before {
+      inset: 10px;
+   }
+}
