@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import db from './config/db.js';
 import authRouter from './routes/auth.routes.js';
