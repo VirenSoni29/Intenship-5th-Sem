@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { sendError } from '../utils/response.js';
+import config from '../config/config.js';
 
 const userAuth = async (req, res, next) => {
    const { token } = req.cookies;
@@ -9,7 +10,7 @@ const userAuth = async (req, res, next) => {
    }
 
    try {
-      const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
+      const tokenDecode = jwt.verify(token, config.JWT_SECRET);
 
       if (tokenDecode.id) {
          req.user = tokenDecode

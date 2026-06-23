@@ -4,6 +4,7 @@ import * as adminModel from '../models/admin.model.js'
 import { sendError, sendSuccess } from '../utils/response.js';
 import calculateFaceDistance from '../helpers/calculateFaceDistance.js';
 import { USER_ROLE_LABEL, USER_STATUS_LABEL } from '../utils/constants.js';
+import config from '../config/config.js';
 
 const getAllUsers = async (req, res) => {
    const { search = '', status = 'all', role = 'all', sort = 'id-greatest', page, limit } = req.query;
@@ -48,7 +49,7 @@ const pending = async (req, res) => {
 
       if (!user.is_test) {
          await transporter.sendMail({
-            from: `Team SlotSync ${process.env.EMAIL_USER}`,
+            from: `Team SlotSync ${config.EMAIL_USER}`,
             to: user.email,
             subject: 'Account Status',
             html: `<p>Dear, <b>${user.name}</b></p>
@@ -78,7 +79,7 @@ const approve = async (req, res) => {
 
       if (!user.is_test) {
          await transporter.sendMail({
-            from: `Team SlotSync ${process.env.EMAIL_USER}`,
+            from: `Team SlotSync ${config.EMAIL_USER}`,
             to: user.email,
             subject: 'Account Approval',
             html: `<p>Congratulations, <b>${user.name}</b></p>
@@ -109,7 +110,7 @@ const reject = async (req, res) => {
 
       if (!user.is_test) {
          await transporter.sendMail({
-            from: `Team SlotSync ${process.env.EMAIL_USER}`,
+            from: `Team SlotSync ${config.EMAIL_USER}`,
             to: user.email,
             subject: 'Account Rejection',
             html: `<p>Sorry, <b>${user.name}</b></p>

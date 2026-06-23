@@ -5,8 +5,9 @@ import * as otpService from '../services/otp.service.js';
 import transporter from '../config/nodemailer.js';
 import { sendError, sendSuccess } from '../utils/response.js';
 import { USER_STATUS, USER_STATUS_LABEL } from '../utils/constants.js';
+import config from '../config/config.js';
 
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const IS_PRODUCTION = config.NODE_ENV === 'production';
 
 const COOKIE_OPTIONS = {
    httpOnly: true,
@@ -66,7 +67,7 @@ const login = async (req, res) => {
          return sendError(res, 401, 'Invalid Credentials!');
       }
 
-      const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
+      const token = jwt.sign({ id: user.id, role: user.role }, config.JWT_SECRET, { expiresIn: '1d' });
 
       res.cookie('token', token, {
          ...COOKIE_OPTIONS,
@@ -119,7 +120,7 @@ const sendResetOtp = async (req, res) => {
       const otp = await otpService.generateAndStoreOtp(email, 'forget_password');
 
       await transporter.sendMail({
-         from: `'Team SlotSync' ${process.env.EMAIL_USER}`,
+         from: `'Team SlotSync' ${config.EMAIL_USER}`,
          to: email,
          subject: 'Password Reset Code',
          html: `Your OTP for restting your password is <strong>${otp}</strong>. Enter this OTP to reset your password.`

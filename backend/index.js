@@ -9,10 +9,11 @@ import userRouter from './routes/user.routes.js';
 import adminRouter from './routes/admin.routes.js'
 import documentRouter from './routes/document.routes.js'
 import detailsRouter from './routes/details.routes.js'
+import config from './config/config.js';
 
 const app = express();
-const port = process.env.PORT || 5000;
-const allowedOrigins = ['http://localhost:5173']
+const port = config.PORT || 5000;
+const allowedOrigins = [config.FRONTEND_URL]
 
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(morgan('dev'));
