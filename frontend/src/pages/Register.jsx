@@ -70,7 +70,7 @@ const RightPanel = () => {
    const [authSuccess, setAuthSuccess] = useState('')
    const [loading, setLoading] = useState(false)
 
-   const nameRegex = /^[a-zA-z]{3,}$/;
+   const nameRegex = /^[a-zA-z\s]{3,}$/;
    const emailRegex = /^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/;
    const phoneRegex = /^\d{10}$/;
 
@@ -186,7 +186,7 @@ const RightPanel = () => {
                setAuthError(data.message);
             }
          } catch (err) {
-            setAuthError(err.response?.data?.message || err.message);
+            setAuthError(err.response?.data?.message || 'Server Error. Please try later.');
          }
       }
       setLoading(false)

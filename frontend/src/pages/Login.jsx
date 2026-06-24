@@ -151,7 +151,7 @@ const RightPanel = () => {
                setAuthError(data.message);
             }
          } catch (err) {
-            setAuthError(err.response?.data?.message || err.message);
+            setAuthError(err.response?.data?.message || 'Server error. Please try later.');
          }
       }
       setLoading(false);
