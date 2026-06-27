@@ -12,7 +12,7 @@ import config from './config/config.js';
 
 const app = express();
 const port = config.PORT || 5000;
-const allowedOrigins = [config.FRONTEND_URL]
+const allowedOrigins = [config.FRONTEND_URL, 'http://localhost:5173']
 
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(morgan('dev'));
